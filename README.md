@@ -8,6 +8,9 @@ const CircleAnimate = class {
         this.init()
     }
 
+    /**
+    * init 创建节点
+    */
     init() {
         const createEls = (...args) => args.map(e => document.body.appendChild(document.createElement(e)));
         const [p, c] = createEls('div', 'span');
@@ -25,7 +28,7 @@ const CircleAnimate = class {
     }
 
     /**
-        * 执行动画
+        * run 执行动画
         * start {number=} 开始角度 default = 0
         * end {number=} 结束角度 default = 360
         * duration {number=} 默认动画时间  default = 1000ms
@@ -99,8 +102,7 @@ traverse(node);
 
     // 兼容方案
     function inherit (A, B) {
-        if (typeof A !== 'function' || typeof B !== 'function')
-        throw new Error('A和B必须是构造函数');
+        if (typeof A !== 'function' || typeof B !== 'function') throw new Error('A和B必须是构造函数');
         if (typeof Reflect !== 'undefined') {
             Reflect.setPrototypeOf(A.prototype, B.prototype);
             return A;
@@ -109,13 +111,12 @@ traverse(node);
             var p = Object.create(B.prototype);
             Object.keys(A.prototype)
             .forEach(function(k) {
-                p = A.prototype[k]
+                p[k] = A.prototype[k]
             });
         } else {
             var p = new B; // 参数麽？
             for (var k in A.prototype) {
-                A.prototype.hasOwnProperty(k)
-                && (p[k] = A.prototype[k]);
+                A.prototype.hasOwnProperty(k) && (p[k] = A.prototype[k]);
             }
         }
         A.prototype = p;
