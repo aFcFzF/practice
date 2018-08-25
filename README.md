@@ -1,6 +1,6 @@
 ### 练习..
 
-1. 创建两元素A和B, B绕A匀速旋转。
+1. 【2018-08-25】创建两元素A和B, B绕A匀速旋转。
 
 ``` js
 const CircleAnimate = class {
@@ -58,7 +58,7 @@ a = new CircleAnimate;
 a.run()
 ```
 
-2. 平衡二叉树交换子节点
+2. 【2018-08-25】平衡二叉树交换子节点 
 
 ``` js
 // 测试用例
@@ -94,7 +94,7 @@ traverse = n => {
 traverse(node);
 ```
 
-3. 构造函数A继承B
+3. 【2018-08-25】构造函数A继承B 
 
 ``` js
     const inherit = (A, B) =>
@@ -123,7 +123,7 @@ traverse(node);
         return A;
     }
 ```
-4. 模板解析
+4. 【2018-08-25】 模板解析 
 
 ``` js
     // 测试用例 tpl和 data
