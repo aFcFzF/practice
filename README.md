@@ -5,11 +5,13 @@
 ``` js
 const CircleAnimate = class {
     constructor() {
-        this.init()
+        this.init();
     }
 
     /**
     * init 创建节点
+    *
+    * @inner
     */
     init() {
         const createEls = (...args) => args.map(e => document.body.appendChild(document.createElement(e)));
@@ -29,6 +31,7 @@ const CircleAnimate = class {
 
     /**
         * run 执行动画
+        *
         * start {number=} 开始角度 default = 0
         * end {number=} 结束角度 default = 360
         * duration {number=} 默认动画时间  default = 1000ms
@@ -55,7 +58,7 @@ const CircleAnimate = class {
 }
 
 a = new CircleAnimate;
-a.run()
+a.run();
 ```
 
 2. 【2018-08-25】平衡二叉树交换子节点
