@@ -145,5 +145,5 @@ traverse(node);
 
     // 结果
     const parse = (tpl, data) =>
-    tpl.trim().replace(/{%(\w+)%}/g, (m, w) => data[w]);
+    tpl.trim().replace(/{%([_a-zA-Z]\w+)%}/g, (m, w) => data.hasOwnProperty(w) ? data[w] : m);
 ```
