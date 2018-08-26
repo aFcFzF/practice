@@ -100,29 +100,33 @@ traverse(node);
 3. 【2018-08-25】构造函数A继承B
 
 ``` js
-    const inherit = (A, B) =>
-    Reflect.setPrototypeOf(A.prototype, B.prototype);
+    const inherit = (A, B) => {
+        Reflect.setPrototypeOf(A.prototype, B.prototype);
+        Reflect.setPrototypeOf(A, B);
+    }
 
     // 兼容方案
     function inherit (A, B) {
         if (typeof A !== 'function' || typeof B !== 'function') throw new Error('A和B必须是构造函数');
         if (typeof Reflect !== 'undefined') {
             Reflect.setPrototypeOf(A.prototype, B.prototype);
+            Reflect.setPrototypeOf(A, B);
             return A;
         }
         if (Object.create) {
             var p = Object.create(B.prototype);
-            Object.keys(A.prototype)
-            .forEach(function(k) {
-                p[k] = A.prototype[k]
+            Object.keys(A.prototype).forEach(function(k) { // 相当于 var p = Object.assign(Object.create(B.prototype), A.prototype);
+                p[k] = A.prototype[k];
             });
-        } else {
+        }
+        else {
             var p = new B; // 参数麽？
             for (var k in A.prototype) {
                 A.prototype.hasOwnProperty(k) && (p[k] = A.prototype[k]);
             }
         }
         A.prototype = p;
+        A.__proto__ && (A.__proto__ = B);
         return A;
     }
 ```
