@@ -147,3 +147,52 @@ traverse(node);
     const parse = (tpl, data) =>
     tpl.trim().replace(/{%([_a-zA-Z]\w+)%}/g, (m, w) => data.hasOwnProperty(w) ? data[w] : m);
 ```
+
+5. 【2018-09-04】 实现类似JSON.stringify 的功能
+ps： 基础太差，如果让纸上写，不给运行，指定是gg
+
+``` js
+    obj = {
+        str: 'baidu ',
+        num: 123,
+        bool: true,
+        arr: [new Number(3), new String('false'), new Boolean(false)],
+        obj: { x: [10, undefined, function(){}, Symbol('')] },
+        fn: function(){},
+        date: new Date(2006, 0, 2, 15, 4, 5)
+    };
+    parent = [];
+    const stringify = (obj, r = '') => {
+        const getType = o => ({}).toString.call(o).match(/\[object (\w+)\]/)[1].toLowerCase();
+
+        if (getType(obj) !== 'object' && getType(obj) !== 'array') {
+            if (getType(obj) === 'string') return `"${obj}"`;
+            if (getType(obj) === 'date') return `"${obj.toISOString()}"`;
+            let r = undefined;
+            const tps = ['undefined', 'null', 'function', 'symbol'];
+            tps.indexOf(getType(obj)) === -1 && (r = obj.valueOf());
+            return r;
+        }
+
+        if (parent.indexOf(obj) > -1) throw Error('Converting circular structure to JSON');
+        parent.push(obj);
+        Array.isArray(obj) ? obj.forEach((item, idx, arr) => {
+            const b = idx === 0 ? '[' : '';
+            const e = idx >= arr.length -1 ? ']' : '';
+            const comma = idx < arr.length -1 ? ',' : '';
+            let result = stringify(item); 
+            result = result === undefined ? null : result;
+            r += `${b}${result}${comma}${e}`;
+        })
+        : Object.entries(obj).forEach(([k, v], idx, arr) => {
+        const b = idx === 0 ? '{' : '';
+        const e = idx >= arr.length -1 ? "}" : '';
+        const comma = idx < arr.length -1 ? ',' : '';
+        const result = stringify(v);
+        result !== undefined && (r += `${b}"${k}":${result}${e}${comma}`;
+        });
+
+        return r;
+    };
+    stringify(obj);
+```
