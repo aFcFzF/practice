@@ -149,7 +149,8 @@ traverse(node);
 ```
 
 5. 【2018-09-04】 实现类似JSON.stringify 的功能
-ps： 基础太差，如果让纸上写，不给运行，指定是gg
+
+ps： new Date().toISOString()...之前不知道 QAQ
 
 ``` js
     obj = {
@@ -161,38 +162,63 @@ ps： 基础太差，如果让纸上写，不给运行，指定是gg
         fn: function(){},
         date: new Date(2006, 0, 2, 15, 4, 5)
     };
-    parent = [];
-    const stringify = (obj, r = '') => {
-        const getType = o => ({}).toString.call(o).match(/\[object (\w+)\]/)[1].toLowerCase();
+    // obj.self = obj; 测试环
+    stringify = obj => {
+        const parent = [];
+        const stringifyProc = (obj, r = '') => {
+            // 主要是为了得到plainObject和一些特殊类型，例如 Date
+            const getType = o => ({}).toString.call(o).match(/\[object (\w+)\]/)[1].toLowerCase();
 
-        if (getType(obj) !== 'object' && getType(obj) !== 'array') {
-            if (getType(obj) === 'string') return `"${obj}"`;
-            if (getType(obj) === 'date') return `"${obj.toISOString()}"`;
-            let r = undefined;
-            const tps = ['undefined', 'null', 'function', 'symbol'];
-            tps.indexOf(getType(obj)) === -1 && (r = obj.valueOf());
+            if (getType(obj) !== 'object' && getType(obj) !== 'array') {
+                if (getType(obj) === 'string') return `"${obj}"`;
+                if (getType(obj) === 'date') return `"${obj.toISOString()}"`;
+                let r = undefined;
+                const tps = ['undefined', 'null', 'function', 'symbol'];
+                tps.indexOf(getType(obj)) === -1 && (r = obj.valueOf());
+                return r;
+            }
+
+            if (parent.indexOf(obj) > -1) throw Error('Converting circular structure to JSON');
+            parent.push(obj);
+            Array.isArray(obj) ? obj.forEach((item, idx, arr) => {
+                const b = idx === 0 ? '[' : '';
+                const e = idx >= arr.length -1 ? ']' : '';
+                const comma = idx < arr.length -1 ? ',' : '';
+                let result = stringifyProc(item);
+                result = result === undefined ? null : result;
+                r += `${b}${result}${comma}${e}`;
+            })
+            : Object.entries(obj).forEach(([k, v], idx, arr) => {
+                const b = idx === 0 ? '{' : '';
+                const e = idx >= arr.length -1 ? "}" : '';
+                const comma = idx < arr.length -1 ? ',' : '';
+                const result = stringifyProc(v);
+                result !== undefined && (r += `${b}"${k}":${result}${e}${comma}`);
+            });
+
             return r;
         }
-
-        if (parent.indexOf(obj) > -1) throw Error('Converting circular structure to JSON');
-        parent.push(obj);
-        Array.isArray(obj) ? obj.forEach((item, idx, arr) => {
-            const b = idx === 0 ? '[' : '';
-            const e = idx >= arr.length -1 ? ']' : '';
-            const comma = idx < arr.length -1 ? ',' : '';
-            let result = stringify(item); 
-            result = result === undefined ? null : result;
-            r += `${b}${result}${comma}${e}`;
-        })
-        : Object.entries(obj).forEach(([k, v], idx, arr) => {
-        const b = idx === 0 ? '{' : '';
-        const e = idx >= arr.length -1 ? "}" : '';
-        const comma = idx < arr.length -1 ? ',' : '';
-        const result = stringify(v);
-        result !== undefined && (r += `${b}"${k}":${result}${e}${comma}`;
-        });
-
-        return r;
+        return stringifyProc(obj);
     };
     stringify(obj);
+```
+先检测环？一般环的场景不多罢。。。
+
+``` js
+const cycleDetector = o => {
+    const p = [];
+    const getType = o => ({}).toString.call(o).match(/\[object (\w+)\]/)[1].toLowerCase();
+	const chkProc = o => {
+        if (getType(o) === 'object' || getType(o) === 'array') {
+            const iter = Array.isArray(o) ? o : Object.values(o);
+            for (let v of iter) {
+                if (p.indexOf(v) > 0 || chkProc(v)) return true;
+            }
+            p.push(o);
+        }
+        return false;
+	}
+	return chkProc(o);
+};
+cycleDetector(obj);
 ```
