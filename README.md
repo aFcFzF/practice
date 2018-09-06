@@ -222,3 +222,35 @@ const cycleDetector = o => {
 };
 cycleDetector(obj);
 ```
+
+6. 实现bind
+``` js
+const bindPolyfill = _ => {
+   if (Reflect.has(Function.prototype, '_bind')) throw Error('_bind property has existed in proto in Function');
+   Function.prototype._bind = function (thisObj = {}, ...args1) {
+       return (...args2) => {
+           thisObj._fn_ = this;
+           const r = thisObj._fn_(...args1, ...args2);
+           Reflect.deleteProperty(thisObj, '_fn_');
+           return r;
+        }
+   }
+};
+bindPolyfill();
+```
+
+7. nodejs 实现一个简单的静态服务器，要求与说明： 
+a. 只相应 .js 后缀的资源请求，当本地存在时响应200，不存在响应400，默认utf-8
+b. 客户端过期时间设置为1小时
+c. 静态资源存在在服务器`/home/admin/htdocs`，url映射规则为 `/foo/bar.js->home/admin/htdocs/foo/bar.js`，即为$(根目录)/${url}的拼接。
+d. 实现304状态码响应逻辑
+e. 尽可能提高响应性能，以提高服务器吞吐能力
+f. 注意安全问题，防止/../../foo.js 这种相对路径访问到其他系统文件
+g. 允许使用任意版本的nodejs api
+h. 不允许使用任何第三方开源模块
+
+8. 实现一个网页版的聊天室（类似与钉钉群），请列出关键技术方案及要点。需求如下： 
+高实时性、高性能
+你发的每条消息可以看到有多少人已读
+当信息含有@某人时，被@的人的界面上会显示“有人@你”的提醒字样
+刷新页面或断网状态下，历史记录不会消失。
