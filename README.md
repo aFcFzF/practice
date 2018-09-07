@@ -209,7 +209,7 @@ const cycleDetector = o => {
     const p = [];
     const getType = o => ({}).toString.call(o).match(/\[object (\w+)\]/)[1].toLowerCase();
 	const chkProc = o => {
-        if (getType(o) === 'object' || getType(o) === 'array') {
+        if (getType(o) === 'object' || getType(o) === 'array') { // 这块折腾了半天，不如用typeof + for...in 果然还是语言层面的理解不够
             const iter = Array.isArray(o) ? o : Object.values(o);
             for (let v of iter) {
                 if (p.indexOf(v) > 0 || chkProc(v)) return true;
