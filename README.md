@@ -259,3 +259,17 @@ h. 不允许使用任何第三方开源模块
 你发的每条消息可以看到有多少人已读
 当信息含有@某人时，被@的人的界面上会显示“有人@你”的提醒字样
 刷新页面或断网状态下，历史记录不会消失。
+
+9. 【2018-09-12】 两数之和 （112ms）
+``` js
+    const twoSum = (nums, target) => {
+        const map = {};
+        let r = [];
+        nums.some((e, i) => {
+            if (map[e] != null) return r = [map[e], i];
+            const d = target - e;
+            map[d] == null && (map[d] = i);
+        });
+        return r;
+    };
+```
