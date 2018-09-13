@@ -273,3 +273,43 @@ h. 不允许使用任何第三方开源模块
         return r;
     };
 ```
+10. 【2018-09-13】 反转整数
+取值范围 32位有符号
+
+``` js
+    // 数学方法
+    const reverse = x => {
+        let r = 0;
+        const [min, max] = [(-2) ** 31, 2 ** 31 -1];
+        while(x !== 0) {
+            const mod = x % 10;
+            if (r < min / 10 || (r === min / 10 && mod < -8)) return 0;
+            if (r > max / 10 || (r === max / 10 && mod > 7)) return 0;
+            x = ~~(x / 10);
+            r = r * 10 + mod;
+        }
+        return r;
+    }
+```
+11. 检测回文数
+思路：
+    1. 转字符串: 开了额外空间
+    2. 全转： 如果大于int32，则溢出。（看反转整数）
+    3. 转一半，给原数不断除10.如果原数小于当前数，就说明不是了。中位数如果是奇数，那(x || x / 10)
+tip： 所有的负数都不是回文数, 还有俩特殊值。 10 和 0
+``` js
+/**
+ * @param {number} x
+ * @return {boolean}
+ */
+var isPalindrome = function(x) {
+    if (x < 0 || (x % 10 === 0 && x !==0)) return false;
+    let r = 0;
+    while(x > r) {
+        const mod = x % 10;
+        x = ~~(x / 10);
+        r = r * 10 + mod;
+    }
+    return x === r || x === ~~(r / 10);
+};
+```
