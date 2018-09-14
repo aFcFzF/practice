@@ -209,7 +209,7 @@ const cycleDetector = o => {
     const p = [];
     const getType = o => ({}).toString.call(o).match(/\[object (\w+)\]/)[1].toLowerCase();
 	const chkProc = o => {
-        if (getType(o) === 'object' || getType(o) === 'array') { // 这块折腾了半天，不如用typeof + for...in 果然还是语言层面的理解不够
+        if (getType(o) === 'object' || getType(o) === 'array') { // 不如用typeof + for...in 果然还是语言层面的理解不够
             const iter = Array.isArray(o) ? o : Object.values(o);
             for (let v of iter) {
                 if (p.indexOf(v) > 0 || chkProc(v)) return true;
@@ -280,11 +280,11 @@ h. 不允许使用任何第三方开源模块
     // 数学方法
     const reverse = x => {
         let r = 0;
-        const [min, max] = [(-2) ** 31, 2 ** 31 -1];
+        const [min, max] = [(-2) ** 31 / 10, (2 ** 31 -1) / 10];
         while(x !== 0) {
             const mod = x % 10;
-            if (r < min / 10 || (r === min / 10 && mod < -8)) return 0;
-            if (r > max / 10 || (r === max / 10 && mod > 7)) return 0;
+            if (r < min || (r === ~~min && mod < -8)) return 0;
+            if (r > max || (r === ~~max && mod > 7)) return 0;
             x = ~~(x / 10);
             r = r * 10 + mod;
         }
