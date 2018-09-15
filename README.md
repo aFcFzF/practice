@@ -317,6 +317,7 @@ var isPalindrome = function(x) {
 12. 拍平数据
 要求：
 ``` js
+// 咦。。数据你怎么啦？
 a = [{
     _id: 1,
     parent: null,
