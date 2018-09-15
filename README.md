@@ -322,16 +322,16 @@ a = [{
     _id: 1,
     parent: null,
     children: [
-    {
-    _id: 2,
-    parent: 1,
-    children: [{_id: 4, parent: 2}]
-    },
-    {
-    _id: 3,
-    parent: 1,
-    children: [{_id: 5, parent: 3}]
-    }
+        {
+            _id: 2,
+            parent: 1,
+            children: [{_id: 4, parent: 2}]
+        },
+        {
+            _id: 3,
+            parent: 1,
+            children: [{_id: 5, parent: 3}]
+        }
     ]
 }];
 
@@ -346,21 +346,21 @@ a = [{
 
 ``` js
 parse = arr => {
-	const result = [];
-	const p = arr => {
-		const l = [];
+    const result = [];
+    const p = arr => {
+        const l = [];
         arr.forEach(e => {
             const r = {
                 _id: e._id,
             };
             !(e.parent == null) && (r.parent = e.parent);
-			result.push(r);
+            result.push(r);
             e.children && l.push(...e.children);
         });
-		l.length > 0 && p(l);
+        l.length > 0 && p(l);
     };
-	p(arr);
-	return result;
+    p(arr);
+    return result;
 }
 parse(a);
 ```
