@@ -314,24 +314,24 @@ var isPalindrome = function(x) {
 };
 ```
 
-12. 拍平数据
+12. 【2018-09-15】拍平数据
 要求：
 ``` js
-// 咦。。数据你怎么啦？
+// 咦。。数据为啥。。
 a = [{
     _id: 1,
     parent: null,
     children: [
-        {
-            _id: 2,
-			parent: 1,
-			children: [{_id: 4, parent: 2}]
-		},
-        {
-			_id: 3,
-			parent: 1,
-			children: [{_id: 5, parent: 3}]
-        }
+    {
+    _id: 2,
+    parent: 1,
+    children: [{_id: 4, parent: 2}]
+    },
+    {
+    _id: 3,
+    parent: 1,
+    children: [{_id: 5, parent: 3}]
+    }
     ]
 }];
 
