@@ -313,3 +313,49 @@ var isPalindrome = function(x) {
     return x === r || x === ~~(r / 10);
 };
 ```
+
+12. 拍平数据
+要求：
+>a = [{
+    _id: 1,
+    parent: null,
+    children: [
+        {
+            _id: 2,
+			parent: 1,
+			children: [{_id: 4, parent: 2}]
+		},
+        {
+			_id: 3,
+			parent: 1,
+			children: [{_id: 5, parent: 3}]
+        }
+    ]
+}];
+转为：
+[{_id: 1},
+{_id: 2, parent: 1},
+{_id: 3, parent: 1},
+{_id: 4, parent: 2},
+{_id: 5, parent: 3}]
+
+``` js
+parse = arr => {
+	const result = [];
+	const p = arr => {
+		const l = [];
+        arr.forEach(e => {
+            const r = {
+                _id: e._id,
+            };
+            !(e.parent == null) && (r.parent = e.parent);
+			result.push(r);
+            e.children && l.push(...e.children);
+        });
+		l.length > 0 && p(l);
+    };
+	p(arr);
+	return result;
+}
+parse(a);
+```
