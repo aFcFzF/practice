@@ -316,7 +316,8 @@ var isPalindrome = function(x) {
 
 12. 拍平数据
 要求：
->a = [{
+``` js
+a = [{
     _id: 1,
     parent: null,
     children: [
@@ -332,12 +333,15 @@ var isPalindrome = function(x) {
         }
     ]
 }];
+
 转为：
+
 [{_id: 1},
 {_id: 2, parent: 1},
 {_id: 3, parent: 1},
 {_id: 4, parent: 2},
 {_id: 5, parent: 3}]
+```
 
 ``` js
 parse = arr => {
