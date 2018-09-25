@@ -370,3 +370,44 @@ parse(a);
 ``` json
 [{"opts":[{"type":"selector","name":"磁盘选项","opts":[{"label":"普通云磁盘","value":"ssd"},{"label":"高性能云盘","value":"senior"},{"label":"SSD云磁盘","value":"ssd"}],"value":"senior"},{"type":"slider","name":"磁盘大小","value":0},{"type":"input","name":"磁盘输入框","class":"valume","value":0,"bind":1},{"type":"button","name":"删除","class":"ui-btn-text-red ui-btn-no-border","icon":"ui-icon-close","event":{"click":{"name":"removeDisk","data":0}}},{"type":"tag","name":"提示文字","content":"峰值性能 - 随机IO 2160 IOPS，吞吐量 69 MB/s；免费赠送40GB，超出部分需要单独付费","class":"ui-tag ui-tag-split ui-tag-no-bg","br":true}]},{"opts":[{"type":"selector","name":"磁盘选项","opts":[{"label":"普通云磁盘","value":"ssd"},{"label":"高性能云盘","value":"senior"},{"label":"SSD云磁盘","value":"ssd"}],"value":"senior"},{"type":"slider","name":"磁盘大小","value":0},{"type":"input","name":"磁盘输入框","class":"valume","value":0,"bind":1},{"type":"button","name":"删除","class":"ui-btn-text-red ui-btn-no-border","icon":"ui-icon-close","event":{"click":{"name":"removeDisk","data":1}}},{"type":"tag","name":"提示文字","content":"峰值性能 - 随机IO 2160 IOPS，吞吐量 69 MB/s；免费赠送40GB，超出部分需要单独付费","class":"ui-tag ui-tag-split ui-tag-no-bg","br":true}]},{"opts":[{"type":"selector","name":"磁盘选项","opts":[{"label":"普通云磁盘","value":"ssd"},{"label":"高性能云盘","value":"senior"},{"label":"SSD云磁盘","value":"ssd"}],"value":"senior"},{"type":"slider","name":"磁盘大小","value":0},{"type":"input","name":"磁盘输入框","class":"valume","value":0,"bind":1},{"type":"button","name":"删除","class":"ui-btn-text-red ui-btn-no-border","icon":"ui-icon-close","event":{"click":{"name":"removeDisk","data":2}}},{"type":"tag","name":"提示文字","content":"峰值性能 - 随机IO 2160 IOPS，吞吐量 69 MB/s；免费赠送40GB，超出部分需要单独付费","class":"ui-tag ui-tag-split ui-tag-no-bg","br":true}]},{"opts":[{"type":"selector","name":"磁盘选项","opts":[{"label":"普通云磁盘","value":"ssd"},{"label":"高性能云盘","value":"senior"},{"label":"SSD云磁盘","value":"ssd"}],"value":"senior"},{"type":"slider","name":"磁盘大小","value":99},{"type":"input","name":"磁盘输入框","class":"valume","value":0,"bind":1},{"type":"button","name":"删除","class":"ui-btn-text-red ui-btn-no-border","icon":"ui-icon-close","event":{"click":{"name":"removeDisk","data":3}}},{"type":"tag","name":"提示文字","content":"峰值性能 - 随机IO 2160 IOPS，吞吐量 69 MB/s；免费赠送40GB，超出部分需要单独付费","class":"ui-tag ui-tag-split ui-tag-no-bg","br":true}]}]
 ```
+
+14. 写xhr。。。
+```js
+const ajax = options => {
+        if (!options.url) {
+            throw new Error('url must be assign');
+        }
+
+        const config = Object.assign({
+            type: 'get',
+            data: {},
+            withCredentials: false,
+            async: true,
+            responseType: 'json',
+            formData: false,
+            header: 'application/x-www-form-urlencoded'
+        }, options);
+
+        if (!window.XMLHttpRequest) {
+            throw new Error('current env has not suppprt ajax');
+        }
+        const xhr = new XMLHttpRequest();
+        xhr.open(config.type, config.url, config.async); // ??
+        const {withCredentials, responseType, header} = config;
+        Object.assign(xhr, {
+            withCredentials,
+            responseType
+        });
+        let d = config.data;
+        if (!config.formData) {
+            xhr.setRequestHeader('content-type', header);
+            d = Object.entries(config.data).map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&');
+        }
+        xhr.send(d);
+        return new Promise((r, j) => {
+            xhr.onreadystatechange = _ =>
+            xhr.readyState === 4 && ((xhr.status >= 200 && xhr.status <= 300) || xhr.status === 304)
+            && r(xhr.response);
+        });
+    };
+```
