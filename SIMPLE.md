@@ -61,4 +61,4 @@ const getScript = (src, prop, j) => {
 六、 短路径bfs， 长路径dfs
 七、 性能优化： http2 多路复用，同源减少握手，无最大连接限制。非http2： 精灵图, 模块化, tree-shake, splitChunks, uglify
 八、 AMD 思想： 定义packages， 先加载所有factory返回的模块，后缓存。首屏较慢，模块带缓存，非esm动态加载，babel注意编译之后，没有_default.
-九、webpack插件使用： plugins: [new plug], 常用的 ExtractTextPlugin, BundleAnalysePlugin, HtmlWebpackPlugin 插件编写。。不知
+九、 webpack插件使用： plugins: [new plug], 常用的 ExtractTextPlugin, BundleAnalysePlugin, HtmlWebpackPlugin 插件编写。。不知
