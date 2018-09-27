@@ -59,7 +59,35 @@ Array.from({length:　100}, e => t(1, 2, 3)); // 1 2 3
 
 四、 document 和 window，一个dom对象，一个顶层对象。包含关系: window.document
 
-五、 合并有序数组: merge = (...args) => args.reduce((a, b) => a.concat(b), []);
+五、 合并有序数组:
+```
+/**
+ * @param {number[]} nums1
+ * @param {number} m
+ * @param {number[]} nums2
+ * @param {number} n
+ * @return {void} Do not return anything, modify nums1 in-place instead.
+*/
+var merge = function(nums1, m, nums2, n) {
+nums1.length = m;
+nums2.length = n;
+let [i1, i2] = [0, 0];
+while(i1 - i2 < m) {
+    const [b, e] = [nums1.slice(0, i1), nums1.slice(i1)];
+    if (nums1[i1] >= nums2[i2]) {
+        while(nums1[i1] >= nums2[i2]) {
+            b.push(nums2[i2++]);
+        }
+        nums1.length = 0;
+        nums1.push(...b, ...e);
+    }
+    else {
+        i1++;
+    }
+}
+i2 < n && nums1.push(...nums2.slice(i2));
+};
+```
 
 六、 短路径bfs， 长路径dfs
 
