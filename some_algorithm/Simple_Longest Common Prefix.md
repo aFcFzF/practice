@@ -1,5 +1,5 @@
->Write a function to find the longest common prefix string amongst an array of strings.
-
+``` css
+Write a function to find the longest common prefix string amongst an array of strings.
 If there is no common prefix, return an empty string "".
 
 Example 1:
@@ -14,7 +14,7 @@ Explanation: There is no common prefix among the input strings.
 Note:
 
 All given inputs are in lowercase letters a-z.
-
+```
 
 ``` js
 /**
