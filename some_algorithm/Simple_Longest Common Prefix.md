@@ -16,6 +16,8 @@ Note:
 All given inputs are in lowercase letters a-z.
 ```
 
+resolve:
+
 ``` js
 /**
  * @param {string[]} strs
