@@ -74,7 +74,7 @@ nums2.length = n;
 let [i1, i2] = [0, 0];
 while(i1 - i2 < m) {
     const [b, e] = [nums1.slice(0, i1), nums1.slice(i1)];
-    if (nums1[i1] >= nums2[i2]) {
+    if (!nums1[i1] >= nums2[i2]) {
         while(nums1[i1] >= nums2[i2]) {
             b.push(nums2[i2++]);
         }
