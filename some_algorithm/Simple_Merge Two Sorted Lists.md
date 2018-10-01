@@ -55,4 +55,46 @@ return result;
 mergeTwoLists([1, 1, 2, 3], [1, 2, 3, 4]);
 ```
 
+
+递归解法
+
+``` js
+mergeTwoLists = function(l1, l2) {
+const ListNode = function(val) {
+    this.val = val;
+    this.next = null;
+}
+
+const build = arr => {
+    const r = new ListNode(0);
+    let node = r;
+    for (let item of arr) {
+        node.next = new ListNode(item);
+        node = node.next
+    }
+    return r.next;
+};
+
+l1 = build(l1);
+l2 = build(l2);
+
+const r = new ListNode(0);
+const trave = (l1, l2, r) => {
+    // const val = l1.val < l2.val ? l1.val : l2.val;
+    r.next = new ListNode(val);
+    if (l1.next && l2.next) {
+
+        trave(l1.next, l2.next, r.next);
+    }
+    else {
+        l1.next && (r.next = l1.next);
+        l2.next && (r.next = l2.next);
+    }
+}
+trave(l1, l2, r);
+
+return r.next;
+};
+mergeTwoLists([1, 1, 2, 3], [1, 2, 3, 4])
+```
 这题还有递归解法等三四种
