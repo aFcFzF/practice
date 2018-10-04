@@ -60,41 +60,43 @@ mergeTwoLists([1, 1, 2, 3], [1, 2, 3, 4]);
 
 ``` js
 mergeTwoLists = function(l1, l2) {
-const ListNode = function(val) {
-    this.val = val;
-    this.next = null;
-}
+	const ListNode = function(v) {
+		this.val = v;
+		this.next = null;
+	};
 
-const build = arr => {
-    const r = new ListNode(0);
-    let node = r;
-    for (let item of arr) {
-        node.next = new ListNode(item);
-        node = node.next
-    }
-    return r.next;
+	const build = arr => {
+		let tmp = null;
+		const head = tmp = new ListNode(0);
+		arr.forEach(e => (tmp.next = new ListNode(e), tmp = tmp.next));
+		return head.next;
+	};
+
+	[l1, l2] = [build(l1), build(l2)];
+
+	let tmp = null;
+	const head = tmp = new ListNode(0);
+	const merge = (l1, l2, tmp) => {
+		if (!(l1 && l2)) {
+			l1 && (tmp.next = l1);
+			l2 && (tmp.next = l2);
+			return;
+		}
+		l1.val < l2.val ? (tmp.next = new ListNode(l1.val), merge(l1.next, l2, tmp.next))
+		: (tmp.next = new ListNode(l2.val), merge(l1, l2.next, tmp.next));
+	};
+
+	merge(l1, l2, tmp);
+	tmp = head.next;
+	const r = [];
+	while(tmp) {
+		r.push(tmp.val);
+		tmp = tmp.next;
+	}
+	return r;
 };
 
-l1 = build(l1);
-l2 = build(l2);
-
-const r = new ListNode(0);
-const trave = (l1, l2, r) => {
-    // const val = l1.val < l2.val ? l1.val : l2.val;
-    r.next = new ListNode(val);
-    if (l1.next && l2.next) {
-
-        trave(l1.next, l2.next, r.next);
-    }
-    else {
-        l1.next && (r.next = l1.next);
-        l2.next && (r.next = l2.next);
-    }
-}
-trave(l1, l2, r);
-
-return r.next;
-};
 mergeTwoLists([1, 1, 2, 3], [1, 2, 3, 4])
 ```
-这题还有三四种解法。。
+
+这题还有三四种解法。。后面补上 :)
