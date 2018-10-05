@@ -50,6 +50,6 @@ searchInsert = (nums, target) => {
             return mid;
         }
     }
-    return mid;
+    return l;
 };
 ```
