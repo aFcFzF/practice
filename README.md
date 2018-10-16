@@ -207,18 +207,18 @@ ps： new Date().toISOString()...之前不知道 QAQ
 ``` js
 const cycleDetector = o => {
     const p = [];
-    const getType = o => ({}).toString.call(o).match(/\[object (\w+)\]/)[1].toLowerCase();
-	const chkProc = o => {
-        if (getType(o) === 'object' || getType(o) === 'array') { // 不如用typeof + for...in 果然还是语言层面的理解不够
+    const chkProc = o => {
+        if (typeof o === 'object') { // 不如用typeof + for...in 果然还是语言层面的理解不够
             const iter = Array.isArray(o) ? o : Object.values(o);
-            for (let v of iter) {
-                if (p.indexOf(v) > 0 || chkProc(v)) return true;
-            }
+            if (p.indexOf(o) > -1) return true;
             p.push(o);
+            for (const i of iter) {
+                if (chkProc(i)) return true;
+            }
         }
         return false;
-	}
-	return chkProc(o);
+    }
+    return chkProc(o);
 };
 cycleDetector(obj);
 ```
