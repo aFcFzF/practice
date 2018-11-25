@@ -34,7 +34,7 @@ binAdd = (a, b, add = false) => {
 		+b.charAt(b.length - 1)
 	];
     const tmp = lastA + lastB + add;
-    const r = tmp > 1 ? tmp - 2 + '' : tmp + '';
+    const r = (tmp > 1 ? tmp - 2 : tmp) + '';
     return addBinary(preA, preB, tmp > 1) + r;
 };
 ```
