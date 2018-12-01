@@ -58,7 +58,7 @@ build(a);
 ```
 
 1. 感觉递归不好回溯，要用循环写。
-2. 确实没反应过来, 思路是`镜像二叉树的 左本右 === 右本左`
+2. 确实没反应过来, 思路是`镜像二叉树的 左本右 === 右本左` （思考： 一个递归里面有两个递归。。  得运算多少次）
 	- 所以这道题的解法有两种，一种是把 左本右和右本左 遍历后的数组 做对比。
 	- 第二种方法是递归对比，即 `左子节点的左子节点的值 === 右子节点的右子节点的值， 左子节点的右子节点的值 === 右子节点的右子节点的值`
 3. 还需要注意的是既然是先序遍历，左右如果有一个值为null的时候，无法确定顺序。
@@ -116,7 +116,69 @@ return same(root.left, root.right);
 ```
 
 
+---
+另：
+1. **二叉树深度优先遍历**
+- 循环
+``` js
+const trave = root => {
+	const stack = [root];
+	const r = [];
+	while (stack.length) {
+		const item = stack.pop();
+		r.push(item.val);
+		item.right && stack.push(item.right);
+		item.left && stack.push(item.left);
+	}
+	return r;
+};
+```
 
+- 递归
+``` js
+const trave = root => {
+	const r = [];
+	if (!root) return r;
+	const dfs = n => {
+		n.left && dfs(n.left);
+		n.right && dfs(n.right);
+	};
+	dfs(root);
+	return r;
+};
+```
 
+2. **二叉树广度优先遍历**
+- 循环
+``` js
+const trave = root => {
+	const r = [];
+	if (!root) return r;
+	const queue = [root];
+	while (queue.length) {
+		const item = queue.shift();
+		r.push(item.val);
+		item.left && queue.push(item.left);
+		item.right && queue.push(item.right);
+	}
+	return r;
+};
+```
 
-
+- 递归
+``` js
+const trave = root => {
+	const r = [];
+	if (!root) return r;
+	const queue = [];
+	const bfs = () => {
+		const item = queue.shift();
+		r.push(item.val);
+		item.left && queue.push(item.val);
+		item.right && queue.push(item.val);
+		queue.length && bfs();
+	};
+	bfs();
+	return r;
+};
+```
