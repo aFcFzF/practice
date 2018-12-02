@@ -44,15 +44,15 @@ const trave = root => {
     let r = [];
     const q = [root];
     if (!root) return r;
-    const bfs = (dpt, r) => {
+    const bfs = dpt => {
         const item = q.shift();
-        dpt++;
-        (item.left || item.right) && !r[dpt] && (r[dpt] = []);
-        item.left && q.push(item.left) && r[dpt].push(item.left.val);
-        item.right && q.push(item.right) && r[dpt].push(item.right.val);
-        bfs(dpt, r);
+        const d = dpt + 1;
+        (item.left || item.right) && !r[d] && (r[d] = []);
+        item.left && q.push(item.left) && r[d].push(item.left.val);
+        item.right && q.push(item.right) && r[d].push(item.right.val);
+        q.length && bfs(d);
     };
-    bfs(root, 0, r);
+    bfs(0);
     return r.reverse();
 };
 ```
@@ -62,13 +62,13 @@ const trave = root => {
 var levelOrderBottom = function(root) {
     let r = [];
     if (!root) return r;
-    const dfs = (n, dpt, r) => {
+    const dfs = (n, dpt) => {
 		!r[dpt] && (r[dpt] = []);
 		r[dpt].push(n.val);
-        n.left && dfs(n.left, dpt + 1, r);
-		n.right && dfs(n.right, dpt + 1, r);
+        n.left && dfs(n.left, dpt + 1);
+		n.right && dfs(n.right, dpt + 1);
     };
-    dfs(root, 0, r);
+    dfs(root, 0);
     return r.reverse();
 };
 ```
