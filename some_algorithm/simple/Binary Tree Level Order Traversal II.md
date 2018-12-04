@@ -63,8 +63,10 @@ var levelOrderBottom = function(root) {
     let r = [];
     if (!root) return r;
     const dfs = (n, dpt) => {
-		!r[dpt] && (r[dpt] = []);
-		r[dpt].push(n.val);
+        // 下面两句写的不好，看国庆的
+		// !r[dpt] && (r[dpt] = []);
+		// r[dpt].push(n.val);
+        (r[dpt] || r[dpt] = []).push(n.val);
         n.left && dfs(n.left, dpt + 1);
 		n.right && dfs(n.right, dpt + 1);
     };
