@@ -140,6 +140,7 @@ const trave = root => {
 	const r = [];
 	if (!root) return r;
 	const dfs = n => {
+		r.push(n.val);
 		n.left && dfs(n.left);
 		n.right && dfs(n.right);
 	};
