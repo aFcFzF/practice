@@ -62,13 +62,13 @@ const trave = root => {
 var levelOrderBottom = function(root) {
     let r = [];
     if (!root) return r;
-    const dfs = (n, dpt, r) => {
+    const dfs = (n, dpt) => {
 		!r[dpt] && (r[dpt] = []);
 		r[dpt].push(n.val);
-        n.left && dfs(n.left, dpt + 1, r);
-		n.right && dfs(n.right, dpt + 1, r);
+        n.left && dfs(n.left, dpt + 1);
+		n.right && dfs(n.right, dpt + 1);
     };
-    dfs(root, 0, r);
+    dfs(root, 0);
     return r.reverse();
 };
 ```
